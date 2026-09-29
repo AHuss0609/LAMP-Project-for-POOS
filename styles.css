@@ -1,0 +1,281 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    /* Dark background */
+    background-color: #0b0f17;
+    color: #ffffff;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+}
+
+.login-container {
+    background-color: #151b26;
+    width: 400px;
+    padding: 40px;
+    border-radius: 12px;
+
+    text-align: center;
+
+    /* Blue accent around card */
+    border: 1px solid #2474ff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+h1 {
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+h2 {
+    margin-bottom: 25px;
+    color: #4d8dff;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+
+    background-color: #0f141d;
+    color: #ffffff;
+
+    border: 1px solid #394354;
+    border-radius: 5px;
+
+    font-size: 16px;
+}
+
+input::placeholder {
+    color: #8d96a5;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2474ff;
+    box-shadow: 0 0 0 2px rgba(36, 116, 255, 0.2);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+
+    background-color: #2474ff;
+    color: white;
+
+    border: none;
+    border-radius: 5px;
+
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+button:hover {
+    background-color: #155ed1;
+}
+
+a {
+    color: #4d8dff;
+}
+
+a:hover {
+    color: #76a7ff;
+}
+
+#loginError {
+    margin-top: 15px;
+    color: #ff4d5a;
+    font-weight: bold;
+}
+
+/* Registration/contact messages */
+#registerError,
+#contactError {
+    color: #ff4d5a;
+    margin-top: 15px;
+}
+
+#registerMessage,
+#contactMessage {
+    color: #4d8dff;
+    margin-top: 15px;
+}
+
+/* -------------------------
+   CONTACTS PAGE
+------------------------- */
+
+.contacts-container {
+    background-color: #151b26;
+    width: 1000px;
+    max-width: 95%;
+    padding: 40px;
+    border-radius: 12px;
+    border: 1px solid #2474ff;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.45);
+}
+
+/* Header */
+
+.contacts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.contacts-header h1 {
+    margin: 0;
+}
+
+.logout-button {
+    width: auto;
+    padding: 10px 25px;
+    background-color: #d9363e;
+}
+
+.logout-button:hover {
+    background-color: #b9272f;
+}
+
+/* Two-column layout */
+
+.contacts-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Left side */
+
+.contacts-panel {
+    min-width: 0;
+}
+
+.contacts-panel h2,
+.add-contact-panel h2 {
+    margin-top: 0;
+    color: #4d8dff;
+}
+
+#searchContacts {
+    margin-bottom: 20px;
+}
+
+#contactsList {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Contact cards */
+
+.contact-card {
+    background-color: #0f141d;
+    border: 1px solid #394354;
+    border-left: 4px solid #2474ff;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.contact-card h3 {
+    color: #ffffff;
+    margin: 0 0 8px 0;
+}
+
+.contact-card p {
+    color: #b8c0cc;
+    margin: 5px 0;
+}
+
+.contact-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.contact-actions button {
+    flex: 1;
+}
+
+.edit-button {
+    background-color: #2474ff;
+}
+
+.edit-button:hover {
+    background-color: #155ed1;
+}
+
+.delete-button {
+    background-color: #d9363e;
+}
+
+.delete-button:hover {
+    background-color: #b9272f;
+}
+
+/* Right side */
+
+.add-contact-panel {
+    background-color: #0f141d;
+    border: 1px solid #394354;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.add-contact-panel h2 {
+    text-align: center;
+}
+
+#contactMessage {
+    text-align: center;
+    min-height: 20px;
+}
+
+/* -------------------------
+   MOBILE LAYOUT
+------------------------- */
+
+@media (max-width: 750px) {
+
+    body {
+        align-items: flex-start;
+        padding: 20px 0;
+    }
+
+    .contacts-container {
+        padding: 25px;
+    }
+
+    .contacts-layout {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .contacts-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .logout-button {
+        width: 100%;
+    }
+
+    #contactsList {
+        max-height: none;
+    }
+}
