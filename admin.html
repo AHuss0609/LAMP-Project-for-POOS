@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts Manager | Admin Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+            <div>
+                <h1><span class="brand-icon">◉</span> Contacts Manager</h1>
+                <h2>Admin Dashboard</h2>
+            </div>
+
+            <button id="logoutButton">Logout</button>
+        </div>
+
+        <div class="admin-content">
+
+            <section class="admin-users">
+                <h2>Users</h2>
+
+                <input
+                    type="text"
+                    id="adminSearch"
+                    placeholder="Search users..."
+                >
+
+                <div id="adminUsersList">
+                    <p>Loading users...</p>
+                </div>
+            </section>
+
+            <section class="admin-controls">
+                <h2>Admin Controls</h2>
+
+                <p>Select a user to manage their account.</p>
+
+                <div id="selectedUser">
+                    <p>No user selected.</p>
+                </div>
+
+                <hr class="admin-divider">
+
+                <div class="create-admin-section">
+                    <h2>Create Admin</h2>
+                    <p>Create a new administrator account.</p>
+
+                    <form id="createAdminForm">
+
+                        <input
+                            type="text"
+                            id="adminFirstName"
+                            placeholder="First Name"
+                            required
+                        >
+
+                        <input
+                            type="text"
+                            id="adminLastName"
+                            placeholder="Last Name"
+                            required
+                        >
+
+                        <input
+                            type="text"
+                            id="adminUsername"
+                            placeholder="Username"
+                            required
+                        >
+
+                        <input
+                            type="password"
+                            id="adminPassword"
+                            placeholder="Password"
+                            required
+                        >
+
+                        <button type="submit">
+                            Create Admin
+                        </button>
+
+                        <p id="createAdminMessage"></p>
+
+                    </form>
+                </div>
+            </section>
+
+        </div>
+
+        <section class="admin-all-contacts">
+
+            <div class="admin-contacts-header">
+                <div>
+                    <h2>All Contacts</h2>
+                    <p>View and search contacts from all user accounts.</p>
+                </div>
+            </div>
+
+            <input
+                type="text"
+                id="adminContactSearch"
+                placeholder="Search by name, email, phone, or username..."
+            >
+
+            <div id="adminContactsList">
+                <p>Loading contacts...</p>
+            </div>
+
+        </section>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>

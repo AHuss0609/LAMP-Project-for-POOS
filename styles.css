@@ -4,10 +4,14 @@
 
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
 
-    /* Dark background */
-    background-color: #0b0f17;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(36, 116, 255, 0.22), transparent 35%),
+        radial-gradient(circle at 85% 80%, rgba(217, 54, 62, 0.18), transparent 35%),
+        #0b0f17;
+
+    background-attachment: fixed;
     color: #ffffff;
 
     display: flex;
@@ -274,4 +278,532 @@ a:hover {
     #contactsList {
         max-height: none;
     }
+}
+
+/* ==============================
+   ADMIN DASHBOARD
+   ============================== */
+
+.admin-container {
+    width: 1100px;
+    max-width: 90%;
+    margin: 60px auto;
+    padding: 40px;
+    background: #161e2b;
+    border: 1px solid #2f7df6;
+    border-radius: 12px;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 35px;
+}
+
+.admin-header h1,
+.admin-header h2 {
+    margin: 0 0 10px 0;
+}
+
+.admin-header #logoutButton {
+    width: auto;
+    padding: 12px 30px;
+    background-color: #d9363e;
+}
+
+.admin-header #logoutButton:hover {
+    background-color: #b9272f;
+    box-shadow: 0 6px 18px rgba(217, 54, 62, 0.25);
+}
+
+.admin-content {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+.admin-users,
+.admin-controls {
+    background: #101722;
+    border: 1px solid #3c485a;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.admin-users h2,
+.admin-controls h2 {
+    margin-top: 0;
+    color: #4b86f9;
+}
+
+#adminSearch {
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.admin-user-card {
+    border: 1px solid #3c485a;
+    border-left: 5px solid #2f7df6;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 15px;
+    background: #101722;
+}
+
+.admin-user-card h3 {
+    margin: 0 0 10px 0;
+}
+
+.admin-user-card p {
+    margin: 6px 0;
+}
+
+.manage-user-button {
+    margin-top: 12px;
+    width: 100%;
+}
+
+#selectedUser {
+    margin-top: 20px;
+}
+
+/* Stack the admin sections on smaller screens */
+@media (max-width: 800px) {
+    .admin-content {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+}
+
+/* ==============================
+   VISUAL POLISH
+   ============================== */
+
+/* Glass effect for main containers */
+.login-container,
+.contacts-container,
+.admin-container {
+    background: rgba(21, 27, 38, 0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(77, 141, 255, 0.45);
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.45),
+        0 0 35px rgba(36, 116, 255, 0.08);
+}
+
+button {
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(36, 116, 255, 0.25);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+.delete-button:hover,
+.logout-button:hover {
+    box-shadow: 0 6px 18px rgba(217, 54, 62, 0.25);
+}
+
+.contact-card,
+.admin-user-card {
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.contact-card:hover,
+.admin-user-card:hover {
+    transform: translateY(-2px);
+    border-color: #4d8dff;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.25),
+        0 0 15px rgba(36, 116, 255, 0.08);
+}
+
+input {
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background-color 0.2s ease;
+}
+
+input:hover {
+    border-color: #536174;
+}
+
+input:focus {
+    background-color: #121925;
+    border-color: #4d8dff;
+
+    box-shadow:
+        0 0 0 3px rgba(36, 116, 255, 0.12),
+        0 0 15px rgba(36, 116, 255, 0.08);
+}
+
+.user-badges {
+    display: flex;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.role-badge,
+.status-badge {
+    display: inline-block;
+    width: fit-content;
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.admin-badge {
+    background: rgba(36, 116, 255, 0.15);
+    color: #76a7ff;
+    border: 1px solid rgba(36, 116, 255, 0.35);
+}
+
+.user-badge {
+    background: rgba(255, 255, 255, 0.08);
+    color: #c4ccd8;
+    border: 1px solid #394354;
+}
+
+.active-badge {
+    background: rgba(61, 190, 120, 0.12);
+    color: #65d89a;
+    border: 1px solid rgba(61, 190, 120, 0.3);
+}
+
+.disabled-badge {
+    background: rgba(217, 54, 62, 0.12);
+    color: #ff6b74;
+    border: 1px solid rgba(217, 54, 62, 0.3);
+}
+
+#loginError,
+#registerError,
+#contactError {
+    color: #ff6b74;
+}
+
+#registerMessage,
+#contactMessage,
+#adminMessage {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 12px;
+    min-height: 18px;
+}
+
+#adminMessage {
+    color: #65d89a;
+}
+
+.selected-user-info {
+    background: rgba(15, 20, 29, 0.7);
+    border: 1px solid #394354;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.selected-user-info h3 {
+    color: #ffffff;
+    margin-top: 20px;
+}
+
+.selected-user-info h3:first-child {
+    color: #4d8dff;
+    margin-top: 0;
+}
+
+.selected-user-info hr {
+    border: none;
+    border-top: 1px solid #394354;
+    margin: 20px 0;
+}
+
+.disable-user-button {
+    background-color: #d9363e;
+}
+
+.disable-user-button:hover {
+    background-color: #b9272f;
+    box-shadow: 0 6px 18px rgba(217, 54, 62, 0.25);
+}
+
+.enable-user-button {
+    background-color: #26965c;
+}
+
+.enable-user-button:hover {
+    background-color: #1f7a4b;
+    box-shadow: 0 6px 18px rgba(38, 150, 92, 0.25);
+}
+
+.login-container {
+    padding: 35px 40px;
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(36, 116, 255, 0.12);
+}
+
+.login-container h1 {
+    letter-spacing: -0.5px;
+}
+
+.login-container h2 {
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
+/* Keep the user list contained */
+#adminUsersList {
+    max-height: 550px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Keep admin controls visible while scrolling users */
+.admin-controls {
+    position: sticky;
+    top: 30px;
+}
+
+/* Cleaner scrollbar */
+#adminUsersList::-webkit-scrollbar {
+    width: 7px;
+}
+
+#adminUsersList::-webkit-scrollbar-track {
+    background: #0f141d;
+    border-radius: 10px;
+}
+
+#adminUsersList::-webkit-scrollbar-thumb {
+    background: #394b68;
+    border-radius: 10px;
+}
+
+#adminUsersList::-webkit-scrollbar-thumb:hover {
+    background: #4d8dff;
+}
+
+/* Selected admin user */
+.admin-user-card.selected {
+    border-color: #4d8dff;
+    border-left-color: #4d8dff;
+
+    background: rgba(36, 116, 255, 0.08);
+
+    box-shadow:
+        0 0 0 1px rgba(36, 116, 255, 0.15),
+        0 0 20px rgba(36, 116, 255, 0.12);
+}
+
+#adminSearch {
+    border-radius: 8px;
+    padding: 13px 15px;
+}
+
+#adminSearch:focus {
+    border-color: #4d8dff;
+    box-shadow:
+        0 0 0 3px rgba(36, 116, 255, 0.12),
+        0 0 18px rgba(36, 116, 255, 0.08);
+}
+
+/* ==============================
+   CREATE ADMIN
+   ============================== */
+
+.admin-divider {
+    border: none;
+    border-top: 1px solid #394354;
+    margin: 30px 0;
+}
+
+.create-admin-section h2 {
+    margin-bottom: 8px;
+}
+
+.create-admin-section > p {
+    color: #b8c0cc;
+    margin-bottom: 20px;
+}
+
+#createAdminForm {
+    background: rgba(15, 20, 29, 0.7);
+    border: 1px solid #394354;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+#createAdminForm button {
+    margin-top: 5px;
+}
+
+#createAdminMessage {
+    margin: 12px 0 0;
+    min-height: 18px;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* ==============================
+   ADMIN - ALL CONTACTS
+   ============================== */
+
+.admin-all-contacts {
+    margin-top: 30px;
+    padding: 28px;
+
+    background: rgba(15, 20, 29, 0.75);
+    border: 1px solid #394354;
+    border-radius: 10px;
+}
+
+.admin-contacts-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.admin-contacts-header h2 {
+    color: #4d8dff;
+    margin: 0 0 8px;
+}
+
+.admin-contacts-header p {
+    color: #b8c0cc;
+    margin: 0;
+}
+
+#adminContactSearch {
+    margin-bottom: 20px;
+}
+
+/* Contact list */
+#adminContactsList {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+
+    max-height: 550px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+/* Individual admin contact */
+.admin-contact-card {
+    background: #111823;
+    border: 1px solid #394354;
+    border-left: 4px solid #2474ff;
+    border-radius: 8px;
+    padding: 18px;
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.admin-contact-card:hover {
+    transform: translateY(-2px);
+    border-color: #4d8dff;
+
+    box-shadow:
+        0 8px 20px rgba(0, 0, 0, 0.25),
+        0 0 15px rgba(36, 116, 255, 0.08);
+}
+
+.admin-contact-card h3 {
+    margin: 0 0 12px;
+    color: #ffffff;
+}
+
+.admin-contact-card p {
+    margin: 7px 0;
+    color: #c4ccd8;
+}
+
+/* Shows which user owns the contact */
+.contact-owner {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+
+    border-radius: 20px;
+
+    background: rgba(36, 116, 255, 0.15);
+    border: 1px solid rgba(36, 116, 255, 0.35);
+
+    color: #76a7ff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* Scrollbar */
+#adminContactsList::-webkit-scrollbar {
+    width: 7px;
+}
+
+#adminContactsList::-webkit-scrollbar-track {
+    background: #0f141d;
+    border-radius: 10px;
+}
+
+#adminContactsList::-webkit-scrollbar-thumb {
+    background: #394b68;
+    border-radius: 10px;
+}
+
+#adminContactsList::-webkit-scrollbar-thumb:hover {
+    background: #4d8dff;
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+    #adminContactsList {
+        grid-template-columns: 1fr;
+    }
+}
+
+.brand-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    margin-right: 6px;
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.15);
+    color: #60a5fa;
+    font-size: 18px;
+    vertical-align: middle;
+    box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
 }

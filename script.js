@@ -83,9 +83,11 @@ if (loginForm) {
                     password: password
                 }));
 
-                window.location.href = "contacts.html";
+                window.location.href = data.isAdmin
+                    ? "admin.html"
+                    : "contacts.html";
             } else {
-                loginError.textContent = "Invalid username or password.";
+                loginError.textContent = "Invalid login or disabled account. Please contact an administrator if you need help.";
             }
 
         } catch (error) {
@@ -391,4 +393,406 @@ if (searchContacts) {
 
         loadContacts(user, search);
     });
+}
+
+// ==============================
+// ADMIN DASHBOARD
+// ==============================
+
+const adminUsersList = document.getElementById("adminUsersList");
+
+if (adminUsersList) {
+
+    const user = JSON.parse(sessionStorage.getItem("user"));
+
+    // Make sure someone is logged in and is an admin
+    if (!user || !user.isAdmin) {
+        window.location.href = "index.html";
+    } else {
+        loadAdminUsers();
+    }
+
+    async function loadAdminUsers() {
+        try {
+            const credentials = btoa(user.username + ":" + user.password);
+
+            const response = await fetch("/api/index.php/admin/users", {
+                method: "GET",
+                headers: {
+                    "Authorization": "Basic " + credentials
+                }
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                adminUsersList.innerHTML = "<p>Unable to load users.</p>";
+                return;
+            }
+
+            displayAdminUsers(data.users);
+
+        } catch (error) {
+            console.error(error);
+            adminUsersList.innerHTML = "<p>Unable to connect to the server.</p>";
+        }
+    }
+
+    function displayAdminUsers(users) {
+        adminUsersList.innerHTML = "";
+
+        users.forEach(account => {
+            const userCard = document.createElement("div");
+            userCard.className = "admin-user-card";
+
+            userCard.innerHTML = `
+                <h3>${account.firstName} ${account.lastName}</h3>
+                <p><strong>Username:</strong> ${account.username}</p>
+                <div class="user-badges">
+                    <span class="role-badge ${account.isAdmin ? "admin-badge" : "user-badge"}">
+                        ${account.isAdmin ? "Admin" : "User"}
+                    </span>
+
+                    <span class="status-badge ${account.isActive ? "active-badge" : "disabled-badge"}">
+                        ${account.isActive ? "Active" : "Disabled"}
+                    </span>
+                </div>
+
+                <button class="manage-user-button" data-user-id="${account.id}">
+                    Manage User
+                </button>
+            `;
+
+            adminUsersList.appendChild(userCard);
+
+            const manageButton = userCard.querySelector(".manage-user-button");
+
+            manageButton.addEventListener("click", function () {
+
+                // Remove selection from any previously selected user
+                document.querySelectorAll(".admin-user-card").forEach(card => {
+                    card.classList.remove("selected");
+                });
+
+                // Highlight this user
+                userCard.classList.add("selected");
+
+                showAdminControls(account);
+            });
+        });
+    }
+
+    function showAdminControls(account) {
+        const selectedUser = document.getElementById("selectedUser");
+
+        selectedUser.innerHTML = `
+            <div class="selected-user-info">
+                <h3>${account.firstName} ${account.lastName}</h3>
+
+                <p><strong>Username:</strong> ${account.username}</p>
+
+                <div class="user-badges">
+                    <span class="role-badge ${account.isAdmin ? "admin-badge" : "user-badge"}">
+                        ${account.isAdmin ? "Admin" : "User"}
+                    </span>
+
+                    <span class="status-badge ${account.isActive ? "active-badge" : "disabled-badge"}">
+                        ${account.isActive ? "Active" : "Disabled"}
+                    </span>
+                </div>
+
+                <hr>
+
+                <h3>Change Password</h3>
+
+                <input
+                    type="password"
+                    id="adminNewPassword"
+                    placeholder="New Password"
+                >
+
+                <button id="changePasswordButton">
+                    Change Password
+                </button>
+
+                <p id="adminMessage"></p>
+
+                <h3>Account Status</h3>
+
+                <button
+                    id="changeStatusButton"
+                    class="${account.isActive ? "disable-user-button" : "enable-user-button"}"
+                >
+                    ${account.isActive ? "Disable User" : "Enable User"}
+                </button>
+            </div>
+        `;
+
+        const changePasswordButton = document.getElementById("changePasswordButton");
+
+        changePasswordButton.addEventListener("click", async function () {
+            const newPassword = document.getElementById("adminNewPassword").value.trim();
+
+            if (!newPassword) {
+                document.getElementById("adminMessage").textContent =
+                    "Please enter a new password.";
+                return;
+            }
+
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            const credentials = btoa(user.username + ":" + user.password);
+
+            try {
+                const response = await fetch(`/api/index.php/admin/users/${account.id}/password`, {
+                    method: "PUT",
+                    headers: {
+                        "Authorization": "Basic " + credentials,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        password: newPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                const adminMessage = document.getElementById("adminMessage");
+
+                if (response.ok) {
+                    adminMessage.textContent = "Password changed successfully.";
+                    document.getElementById("adminNewPassword").value = "";
+                } else {
+                    adminMessage.textContent = data.error || "Unable to change password.";
+                }
+
+            } catch (error) {
+                console.error(error);
+
+                document.getElementById("adminMessage").textContent =
+                    "Unable to connect to the server.";
+            }
+        });
+
+        const changeStatusButton = document.getElementById("changeStatusButton");
+
+        changeStatusButton.addEventListener("click", async function () {
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            const credentials = btoa(user.username + ":" + user.password);
+
+            // If active, disable them. If disabled, enable them.
+            const newStatus = !account.isActive;
+
+            try {
+                const response = await fetch(
+                    `/api/index.php/admin/users/${account.id}/status`,
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Authorization": "Basic " + credentials,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            isActive: newStatus
+                        })
+                    }
+                );
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById("adminMessage").textContent =
+                        newStatus
+                            ? "User enabled successfully."
+                            : "User disabled successfully.";
+
+                    account.isActive = newStatus;
+
+                    // Refresh the user list so the badge updates
+                    loadAdminUsers();
+
+                    // Refresh the controls so the button changes
+                    showAdminControls(account);
+                } else {
+                    document.getElementById("adminMessage").textContent =
+                        data.error || "Unable to update user status.";
+                }
+
+            } catch (error) {
+                console.error(error);
+
+                document.getElementById("adminMessage").textContent =
+                    "Unable to connect to the server.";
+            }
+        });
+    }
+}
+
+// ==============================
+// CREATE ADMIN
+// ==============================
+
+const createAdminForm = document.getElementById("createAdminForm");
+
+if (createAdminForm) {
+    createAdminForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const firstName = document.getElementById("adminFirstName").value.trim();
+        const lastName = document.getElementById("adminLastName").value.trim();
+        const username = document.getElementById("adminUsername").value.trim();
+        const password = document.getElementById("adminPassword").value;
+
+        const message = document.getElementById("createAdminMessage");
+
+        const user = JSON.parse(sessionStorage.getItem("user"));
+
+        if (!user || !user.isAdmin) {
+            message.textContent = "Administrator access required.";
+            return;
+        }
+
+        try {
+            const credentials = btoa(user.username + ":" + user.password);
+
+            const response = await fetch("/api/index.php/admin/users", {
+                method: "POST",
+
+                headers: {
+                    "Authorization": "Basic " + credentials,
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    firstName: firstName,
+                    lastName: lastName,
+                    username: username,
+                    password: password
+                })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                message.textContent = "Admin account created successfully.";
+
+                createAdminForm.reset();
+
+                // Reload the page so the new admin appears in the user list
+                setTimeout(function () {
+                    window.location.reload();
+                }, 1000);
+
+            } else {
+                message.textContent =
+                    data.error || "Unable to create admin account.";
+            }
+
+        } catch (error) {
+            console.error(error);
+
+            message.textContent =
+                "Unable to connect to the server.";
+        }
+    });
+}
+
+// ==============================
+// ADMIN - ALL CONTACTS
+// ==============================
+
+const adminContactsList = document.getElementById("adminContactsList");
+const adminContactSearch = document.getElementById("adminContactSearch");
+
+if (adminContactsList) {
+
+    async function loadAdminContacts(searchQuery = "") {
+
+        const user = JSON.parse(sessionStorage.getItem("user"));
+
+        if (!user || !user.isAdmin) {
+            adminContactsList.innerHTML =
+                "<p>Administrator access required.</p>";
+            return;
+        }
+
+        const credentials = btoa(user.username + ":" + user.password);
+
+        try {
+            const response = await fetch(
+                `/api/index.php/admin/contacts?q=${encodeURIComponent(searchQuery)}&limit=100`,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization": "Basic " + credentials
+                    }
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                adminContactsList.innerHTML =
+                    `<p>${data.error || "Unable to load contacts."}</p>`;
+                return;
+            }
+
+            displayAdminContacts(data.contacts);
+
+        } catch (error) {
+            console.error(error);
+
+            adminContactsList.innerHTML =
+                "<p>Unable to connect to the server.</p>";
+        }
+    }
+
+
+    function displayAdminContacts(contacts) {
+
+        adminContactsList.innerHTML = "";
+
+        if (!contacts || contacts.length === 0) {
+            adminContactsList.innerHTML =
+                "<p>No contacts found.</p>";
+            return;
+        }
+
+        contacts.forEach(contact => {
+
+            const contactCard = document.createElement("div");
+            contactCard.className = "admin-contact-card";
+
+            contactCard.innerHTML = `
+                <h3>${contact.firstName} ${contact.lastName}</h3>
+
+                <p>
+                    <strong>Email:</strong>
+                    ${contact.email || "None"}
+                </p>
+
+                <p>
+                    <strong>Phone:</strong>
+                    ${contact.phoneNumber || "None"}
+                </p>
+
+                <span class="contact-owner">
+                    Owner: ${contact.username}
+                </span>
+            `;
+
+            adminContactsList.appendChild(contactCard);
+        });
+    }
+
+
+    // Load all contacts when the Admin Dashboard opens
+    loadAdminContacts();
+
+
+    // Search contacts
+    if (adminContactSearch) {
+        adminContactSearch.addEventListener("input", function () {
+            loadAdminContacts(adminContactSearch.value.trim());
+        });
+    }
 }
