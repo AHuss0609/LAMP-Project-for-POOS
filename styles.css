@@ -807,3 +807,22 @@ input:focus {
     vertical-align: middle;
     box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
 }
+
+/* Dotted Veil shader background (see dotted-veil.js) */
+#dotted-veil {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: -1;
+    background: #020109;
+    pointer-events: none;
+}
+
+/* Solid login card over the shader background */
+.login-container {
+    background: #151b26;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
