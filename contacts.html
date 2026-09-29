@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacts Manager | My Contacts</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <main>
+
+        <div class="contacts-container">
+
+            <div class="contacts-header">
+                <h1><span class="brand-icon">◉</span> Contacts Manager</h1>
+                <button id="logoutButton" class="logout-button">Logout</button>
+            </div>
+
+            <div class="contacts-layout">
+
+                <!-- LEFT SIDE: CONTACT LIST -->
+                <section class="contacts-panel">
+
+                    <h2>My Contacts</h2>
+
+                    <input
+                        type="text"
+                        id="searchContacts"
+                        placeholder="Search contacts..."
+                    >
+
+                    <div id="contactsList">
+                        <p>Loading contacts...</p>
+                    </div>
+
+                </section>
+
+
+                <!-- RIGHT SIDE: ADD CONTACT -->
+                <section class="add-contact-panel">
+
+                    <h2>Add Contact</h2>
+
+                    <form id="contactForm">
+
+                        <input
+                            type="text"
+                            id="contactFirstName"
+                            placeholder="First Name"
+                            required
+                        >
+
+                        <input
+                            type="text"
+                            id="contactLastName"
+                            placeholder="Last Name"
+                            required
+                        >
+
+                        <input
+                            type="email"
+                            id="contactEmail"
+                            placeholder="Email"
+                            required
+                        >
+
+                        <input
+                            type="tel"
+                            id="contactPhone"
+                            placeholder="Phone Number"
+                            required
+                        >
+
+                        <button type="submit">Add Contact</button>
+
+                    </form>
+
+                    <p id="contactMessage"></p>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <script src="dotted-veil.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
