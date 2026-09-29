@@ -9,79 +9,83 @@
 
 <body>
 
-    <div class="contacts-container">
+    <main>
 
-        <div class="contacts-header">
-            <h1><span class="brand-icon">◉</span> Contacts Manager</h1>
-            <button id="logoutButton" class="logout-button">Logout</button>
-        </div>
+        <div class="contacts-container">
 
-        <div class="contacts-layout">
+            <div class="contacts-header">
+                <h1><span class="brand-icon">◉</span> Contacts Manager</h1>
+                <button id="logoutButton" class="logout-button">Logout</button>
+            </div>
 
-            <!-- LEFT SIDE: CONTACT LIST -->
-            <section class="contacts-panel">
+            <div class="contacts-layout">
 
-                <h2>My Contacts</h2>
+                <!-- LEFT SIDE: CONTACT LIST -->
+                <section class="contacts-panel">
 
-                <input
-                    type="text"
-                    id="searchContacts"
-                    placeholder="Search contacts..."
-                >
-
-                <div id="contactsList">
-                    <p>Loading contacts...</p>
-                </div>
-
-            </section>
-
-
-            <!-- RIGHT SIDE: ADD CONTACT -->
-            <section class="add-contact-panel">
-
-                <h2>Add Contact</h2>
-
-                <form id="contactForm">
+                    <h2>My Contacts</h2>
 
                     <input
                         type="text"
-                        id="contactFirstName"
-                        placeholder="First Name"
-                        required
+                        id="searchContacts"
+                        placeholder="Search contacts..."
                     >
 
-                    <input
-                        type="text"
-                        id="contactLastName"
-                        placeholder="Last Name"
-                        required
-                    >
+                    <div id="contactsList">
+                        <p>Loading contacts...</p>
+                    </div>
 
-                    <input
-                        type="email"
-                        id="contactEmail"
-                        placeholder="Email"
-                        required
-                    >
+                </section>
 
-                    <input
-                        type="tel"
-                        id="contactPhone"
-                        placeholder="Phone Number"
-                        required
-                    >
 
-                    <button type="submit">Add Contact</button>
+                <!-- RIGHT SIDE: ADD CONTACT -->
+                <section class="add-contact-panel">
 
-                </form>
+                    <h2>Add Contact</h2>
 
-                <p id="contactMessage"></p>
+                    <form id="contactForm">
 
-            </section>
+                        <input
+                            type="text"
+                            id="contactFirstName"
+                            placeholder="First Name"
+                            required
+                        >
+
+                        <input
+                            type="text"
+                            id="contactLastName"
+                            placeholder="Last Name"
+                            required
+                        >
+
+                        <input
+                            type="email"
+                            id="contactEmail"
+                            placeholder="Email"
+                            required
+                        >
+
+                        <input
+                            type="tel"
+                            id="contactPhone"
+                            placeholder="Phone Number"
+                            required
+                        >
+
+                        <button type="submit">Add Contact</button>
+
+                    </form>
+
+                    <p id="contactMessage"></p>
+
+                </section>
+
+            </div>
 
         </div>
 
-    </div>
+    </main>
 
     <script src="script.js"></script>
 

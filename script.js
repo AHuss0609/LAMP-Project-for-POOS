@@ -412,11 +412,12 @@ if (adminUsersList) {
         loadAdminUsers();
     }
 
-    async function loadAdminUsers() {
+    async function loadAdminUsers(searchQuery = "") {
         try {
             const credentials = btoa(user.username + ":" + user.password);
 
-            const response = await fetch("/api/index.php/admin/users", {
+            const response = await fetch(`/api/index.php/admin/users?q=${encodeURIComponent(searchQuery)}&limit=100`,
+            {
                 method: "GET",
                 headers: {
                     "Authorization": "Basic " + credentials
@@ -623,6 +624,15 @@ if (adminUsersList) {
                 document.getElementById("adminMessage").textContent =
                     "Unable to connect to the server.";
             }
+        });
+    }
+
+    const adminSearch = document.getElementById("adminSearch");
+
+    if (adminSearch) {
+        adminSearch.addEventListener("input", function () {
+            const searchQuery = adminSearch.value.trim();
+            loadAdminUsers(searchQuery);
         });
     }
 }
